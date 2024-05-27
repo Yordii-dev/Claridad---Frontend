@@ -1,0 +1,25 @@
+
+.container-sidebar{
+    width: 300px !important;
+    position: relative;
+    top: 0;
+    height: 90vh;
+    bottom: 0;    
+}
+
+.cerrar-sesion-option{
+    position: absolute;
+    bottom: 0;    
+    left: 0;
+    width: 94.5%;
+}
+
+.container-photo img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.active-option{
+    border: 1px solid rgb(33, 37, 41);    
+}
