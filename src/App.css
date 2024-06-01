@@ -3,7 +3,7 @@
     width: 300px !important;
     position: relative;
     top: 0;
-    height: 90vh;
+    height: 100%;
     bottom: 0;    
 }
 
@@ -22,4 +22,13 @@
 
 .active-option{
     border: 1px solid rgb(33, 37, 41);    
+}
+
+.container-filter{
+    background-color: rgb(221, 221, 221);
+}
+
+.container-main{
+    height: 95vh;
+
 }

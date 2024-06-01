@@ -1,9 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import LoginView from './views/LoginView'
-import RegisterView from './views/RegisterView'
-import ProveedorView from './views/ProvedorView'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginView from "./views/LoginView";
+import RegisterView from "./views/RegisterView";
+import ProveedorView from "./views/ProvedorView";
+import MunicipioView from "./views/municipio/MunicipioView";
+import PostearView from "./views/municipio/PostearView";
+import PostsView from "./views/municipio/PostsView";
 
-function MyRoutes () {
+function MyRoutes() {
   return (
     <BrowserRouter>
       <Routes>
@@ -11,19 +14,14 @@ function MyRoutes () {
         <Route path="/login" element={<LoginView />}></Route>
         <Route path="/register" element={<RegisterView />}></Route>
         <Route path="/proveedor" element={<ProveedorView />}></Route>
-        {/*  <Route path="/main" element={<MainView />}>
-            <Route index element={<DashboardView />}></Route>
-            <Route path="dash" element={<DashboardView />}></Route>
-            <Route path="store" element={<StoreView />}>
-              <Route index element={<StoreSales />}></Route>
-              <Route path="sales" element={<StoreSales />}></Route>
-              <Route path="quotes" element={<StoreQuotes />}></Route>
-              <Route path="repayments" element={<StoreRepayments />}></Route>
-            </Route>
-        </Route> */}
+        <Route path="/municipio" element={<MunicipioView />}>
+          <Route index element={<PostsView />}></Route>
+          <Route path="posts" element={<PostsView />}></Route>
+          <Route path="postear" element={<PostearView />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default MyRoutes
+export default MyRoutes;
