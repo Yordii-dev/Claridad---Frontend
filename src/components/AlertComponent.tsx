@@ -6,9 +6,14 @@ export default function AlertComponent({
   visible,
   title,
   description,
+  actionClose = () => {},
 }: any) {
   const [showAlert, setShowAlert] = useState(visible);
 
+  const hanlderClose = (e: any) => {
+    setShowAlert(false);
+    actionClose();
+  };
   useEffect(() => {
     setShowAlert(visible);
   }, [visible]);
@@ -19,7 +24,7 @@ export default function AlertComponent({
           <Alert severity={variant}>
             <div className="d-flex justify-content-between align-align-items-center">
               <AlertTitle>{title}</AlertTitle>
-              <span role="button" onClick={() => setShowAlert(false)}>
+              <span role="button" onClick={hanlderClose}>
                 X
               </span>
             </div>

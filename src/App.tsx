@@ -1,12 +1,15 @@
-import './App.css'
-import Routes from './routes'
+import "./App.css";
+import { MyProvider } from "./context/Context";
+import Routes from "./routes";
 
-function App(){
+function App() {
   return (
     <div className="App">
-      <Routes />
+      <MyProvider>
+        <Routes />
+      </MyProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

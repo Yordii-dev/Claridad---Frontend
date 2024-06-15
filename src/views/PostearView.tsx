@@ -1,20 +1,59 @@
 import { Button, Form } from "react-bootstrap";
-import AlertComponent from "../../components/AlertComponent";
+import AlertComponent from "../components/AlertComponent";
+import { UploadAnexosRequerimiento } from "../services/AnexoRequerimientoService";
+import { CreateRequirement } from "../services/RequirementService";
 import { useRef, useState } from "react";
 
 function PostearView() {
   const postForm = useRef<any>(null);
   const [showAlert, setShowAlert] = useState(false);
 
+  const [selectedFiles, setSelectedFiles] = useState(null);
+
+  const sumarDiasSinFinDeSemana = (fechaInicial: any, dias: any) => {
+    const fecha = new Date(fechaInicial);
+    let diasRestantes = dias;
+
+    while (diasRestantes > 0) {
+      // Sumar un día
+      fecha.setDate(fecha.getDate() + 1);
+
+      // Excluir sábados (día 6) y domingos (día 0)
+      if (fecha.getDay() !== 6 && fecha.getDay() !== 0) {
+        diasRestantes--;
+      }
+    }
+
+    return formatDate(fecha);
+  };
+
+  const formatDate = (now: Date) => {
+    const formattedDate = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(
+      now.getHours()
+    ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
+      now.getSeconds()
+    ).padStart(2, "0")}`;
+
+    return formattedDate;
+  };
+  const obtenerFechaActual = () => {
+    const now = new Date();
+
+    return formatDate(now);
+  };
+
   const [formData, setFormData] = useState({
     id_requerimiento: 0,
     nombre: "",
-    fecha_publicacion: "01-01-01",
-    fecha_fin: "",
+    fecha_publicacion: obtenerFechaActual(),
+    fecha_fin: sumarDiasSinFinDeSemana(obtenerFechaActual(), 10),
     costo: "",
     tipo: "",
     estado: "Vigente",
     detalle: "",
+    id_usuario_ganador: null,
   });
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -25,32 +64,30 @@ function PostearView() {
   };
 
   const postHandler = async (e: any) => {
-    const token = localStorage.getItem("token");
+    console.log(formData);
+
     e.preventDefault();
+    const response = await CreateRequirement(formData);
 
-    try {
-      const res = await fetch("http://localhost:3000/server/requerimientos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Tipo de contenido
-          Authorization: `Bearer ${token}`, // Encabezado de autorización
-        },
-        body: JSON.stringify(formData),
-      });
+    if (response.status == "success") {
+      const responseAnexos = await UploadAnexosRequerimiento(
+        selectedFiles,
+        response.data.insertId
+      );
 
-      if (!res.ok) {
-        throw new Error("Error en enviar la solicitud de postear");
-      }
-
-      const json = await res.json();
-
-      if (json.status == "success") {
+      if (responseAnexos.status == "success") {
         if (postForm.current) {
           postForm.current.reset();
           setShowAlert(true);
         }
       }
-    } catch (error: any) {}
+      console.log(responseAnexos);
+    }
+    console.log(response);
+  };
+
+  const handleFileChange = (event: any) => {
+    setSelectedFiles(event.target.files);
   };
   return (
     <>
@@ -74,15 +111,7 @@ function PostearView() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3 mt-4">
-            <Form.Label>Fecha finalizacion</Form.Label>
-            <Form.Control
-              onChange={handleChange}
-              name="fecha_fin"
-              type="date"
-              required
-            />
-          </Form.Group>
+
           <Form.Group className="mb-3 mt-4">
             <Form.Label>Costo</Form.Label>
             <Form.Control
@@ -102,7 +131,13 @@ function PostearView() {
           </Form.Group>
           <Form.Group className="mb-3 mt-4">
             <Form.Label>Anexos</Form.Label>
-            <Form.Control type="file" required />
+            <Form.Control
+              accept=".doc,.docx,.pdf"
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              required
+            />
           </Form.Group>
           <Form.Group className="mb-3 mt-4">
             <Form.Label>Detalle</Form.Label>

@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 
 .container-sidebar{
     width: 300px !important;
@@ -32,3 +38,48 @@
     height: 95vh;
 
 }
+
+.option{
+    box-sizing: border-box;
+}
+
+.option:hover{
+    border: .2px solid rgb(196, 197, 197);    
+}
+.anexo{
+    border-radius: 5px;
+    max-width: 200px;
+    height: 150px;
+}
+
+.anexo:hover{
+    background-color: aliceblue;
+}
+
+.anexo-active{
+    background-color: rgb(212, 227, 240);
+}
+.anexo img{
+    border-radius: 5px;
+    max-width: 60px;
+    height: 65px;
+}
+
+.anexo span{
+    font-size: 12px;
+}
+
+
+.container-postulations{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    gap: 20px;
+}
+
+.postulacion-card:hover{
+    cursor: pointer;
+    background-color: aliceblue;
+}
+ 
+
+ 

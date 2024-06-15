@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import AlertComponent from "../components/AlertComponent";
+import { Login } from "../services/UserService";
 
 function LoginView() {
   const [showAlert, setShowAlert] = useState(false);
@@ -22,30 +23,16 @@ function LoginView() {
 
   const loginHandler = async (e: any) => {
     e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:3000/server/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!res.ok) {
-        throw new Error("Error en enviar la solicitud de login");
-      }
 
-      const json = await res.json();
-      console.log(json);
+    const json = await Login(formData);
 
-      if (json.status == "success") {
-        if (json.data.user.id_rol == 1) navigate("/municipio");
-        if (json.data.user.id_rol == 2) navigate("/proveedor");
-
-        localStorage.setItem("token", json.data.token);
-      } else {
-        setShowAlert(true);
-      }
-    } catch (error: any) {}
+    if (json.status == "success") {
+      navigate("/main");
+      localStorage.setItem("token", json.data.token);
+      localStorage.setItem("id_usuario", json.data.user.id_usuario);
+    } else {
+      setShowAlert(true);
+    }
   };
   return (
     <div>
