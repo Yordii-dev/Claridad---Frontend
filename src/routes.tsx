@@ -9,6 +9,9 @@ import PropuestasView from "./views/PropuestasView";
 import PostularView from "./views/PostularView";
 import { NotifyView } from "./views/NotifyView";
 import CotizacionView from "./views/CotizacionView";
+import ResetPasswordView from "./views/ResetPasswordView";
+import SetcodeView from "./views/SetcodeView";
+import ChancePasswordView from "./views/ChancePasswordView";
 
 function MyRoutes() {
   return (
@@ -17,6 +20,9 @@ function MyRoutes() {
         <Route index element={<LoginView />}></Route>
         <Route path="/login" element={<LoginView />}></Route>
         <Route path="/register" element={<RegisterView />}></Route>
+        <Route path="/reset" element={<ResetPasswordView />}></Route>
+        <Route path="/setcode" element={<SetcodeView />}></Route>
+        <Route path="/chance" element={<ChancePasswordView />}></Route>
         <Route path="/main" element={<MainView />}>
           <Route index element={<PostsView />}></Route>
           <Route path="posts" element={<PostsView />}></Route>

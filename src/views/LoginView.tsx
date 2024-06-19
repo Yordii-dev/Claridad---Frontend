@@ -65,9 +65,9 @@ function LoginView() {
               placeholder="Contraseña"
               required
             />
-            <a className="d-block text-end" role="button">
+            <Link to={"/reset"} className="d-block text-end" role="button">
               Olvide mi contraseña
-            </a>
+            </Link>
           </Form.Group>
 
           <Button className="mx-auto d-block" type="submit" variant="primary">

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../context/Context";
 import { GetUserById } from "../services/UserService";
 import { UsuarioType } from "../types/UsuarioType";
+import ProveedorImg from "../assets/proveedor.png";
 
 import Municipio from "./../assets/municipio.png";
 function SidebarComponent() {
@@ -30,7 +31,7 @@ function SidebarComponent() {
         {usuario?.id_rol == 1 ? (
           <img src={Municipio} alt="" />
         ) : (
-          <img src="http://via.placeholder.com/640x360" alt="" />
+          <img src={ProveedorImg} alt="" />
         )}
 
         <h5 className="mt-2">{usuario?.nombre}</h5>
